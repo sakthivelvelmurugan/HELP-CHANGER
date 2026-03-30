@@ -1,8 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-const API_BASE_URL = "/api";
+import { API_BASE_URL } from "../config/api";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -82,6 +81,9 @@ function LoginPage() {
 }
 
 export default LoginPage;
+
+
+
 
 
 

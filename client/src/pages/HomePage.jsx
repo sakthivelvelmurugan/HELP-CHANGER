@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-
-const API_BASE_URL = "/api";
+import { API_BASE_URL } from "../config/api";
 
 const formatPostedTime = (createdAt) => {
   const createdTime = new Date(createdAt).getTime();
@@ -225,3 +224,6 @@ function HomePage() {
 }
 
 export default HomePage;
+
+
+
