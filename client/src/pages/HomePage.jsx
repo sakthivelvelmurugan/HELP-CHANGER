@@ -20,6 +20,12 @@ const formatPostedTime = (createdAt) => {
   return `Posted ${elapsedDays} day${elapsedDays === 1 ? "" : "s"} ago`;
 };
 
+const getStatusLabelClass = (status) => {
+  if (status === "accepted") return "status-badge status-accepted";
+  if (status === "completed") return "status-badge status-completed";
+  return "status-badge status-open";
+};
+
 function HomePage() {
   const [helpRequests, setHelpRequests] = useState([]);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
@@ -116,12 +122,7 @@ function HomePage() {
         return;
       }
 
-      if (action === "accept") {
-        setSuccessMessage("Request accepted");
-      } else {
-        setSuccessMessage("Request marked as completed");
-      }
-
+      setSuccessMessage(action === "accept" ? "Request accepted" : "Request marked as completed");
       loadHelpRequests();
     } catch (error) {
       setErrorMessage("Unable to reach server");
@@ -176,11 +177,17 @@ function HomePage() {
         <div className="request-grid">
           {helpRequests.map((helpRequest) => (
             <article className="request-card" key={helpRequest._id}>
-              <h2>{helpRequest.title}</h2>
+              <div className="request-top">
+                <h2>{helpRequest.title}</h2>
+                <span className={getStatusLabelClass(helpRequest.status)}>{helpRequest.status}</span>
+              </div>
+
               <p className="request-description">{helpRequest.description}</p>
-              <p className="request-location">Location: {helpRequest.location || "Not shared"}</p>
-              <p className="request-time">{formatPostedTime(helpRequest.createdAt)}</p>
-              <p className="request-status">Status: {helpRequest.status}</p>
+
+              <div className="request-meta">
+                <p className="request-location">Location: {helpRequest.location || "Not shared"}</p>
+                <p className="request-time">{formatPostedTime(helpRequest.createdAt)}</p>
+              </div>
 
               {helpRequest.status === "open" && (
                 <button
@@ -218,6 +225,3 @@ function HomePage() {
 }
 
 export default HomePage;
-
-
-
